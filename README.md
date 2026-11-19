@@ -13,7 +13,7 @@ Jogo sério interativo para o ensino de prevenção de lesão por pressão na en
 
 As escolhas geram pontuação (IAS), feedbacks e selos ao final da partida.
 
-Este repositório contém o **protótipo navegável**: as ilustrações ainda são caixas cinza (slots) que serão trocadas pelas artes finais — veja [`assets/README.md`](assets/README.md).
+Este repositório contém o **protótipo navegável**: as ilustrações ainda são placeholders que serão trocados automaticamente pelas artes finais — veja [`assets/README.md`](assets/README.md).
 
 ## Origem acadêmica
 
@@ -37,18 +37,31 @@ npx serve .
 
 Depois abra <http://localhost:8000> (ou o endereço que o `serve` mostrar).
 
-## Estrutura de pastas
+## Estrutura de pastas (MVVM sem framework)
 
 ```
 pele-em-acao/
-├── index.html      # estrutura da página
+├── index.html                  # o palco 16:9 com as 5 camadas e a ordem dos scripts
 ├── css/
-│   └── style.css   # estilos (palco 1440×810 escalado)
+│   ├── tokens.css              # cores, fontes, espaçamentos e medidas fixas (único arquivo de tokens)
+│   ├── layout.css              # o palco e as camadas (a "ZStack")
+│   └── components.css          # caixa de diálogo, botões, HUD, painéis, menu do protótipo
 ├── js/
-│   └── game.js     # lógica, telas e textos do jogo
-├── assets/         # ilustrações finais (ver assets/README.md)
+│   ├── data/                   # TEXTOS do roteiro (falas e escolhas), separados do código
+│   ├── model/                  # estado e regras do jogo (sem HTML)
+│   ├── viewmodel/              # decide o que cada cena mostra em cada camada
+│   ├── view/                   # desenha no HTML e escuta cliques e teclas
+│   └── main.js                 # liga tudo e dá a partida
+├── assets/
+│   ├── manifest.js             # lista única de assets (ID, caminho, alt, placeholder)
+│   ├── modelo-nomeacao-assets.md
+│   └── img/                    # arquivos finais (cenarios, personagens, objetos, ui, ilustracoes)
+├── docs/                       # lógica e fluxo, comparativo, diário de processo, roteiro de teste
+├── legado/                     # a versão anterior completa (Blocos 1–4), roda em /legado/
 └── README.md
 ```
+
+Atalhos de teste: `index.html?cena=b1-braden` abre direto numa cena; tecla **M** abre o menu do protótipo.
 
 ## Fluxo de trabalho com branches
 
