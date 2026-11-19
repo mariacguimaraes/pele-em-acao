@@ -1,0 +1,91 @@
+/*
+  tokens.css — o "styles/variables" do Figma.
+  Único lugar onde moram cores, fontes, espaçamentos, raios e medidas fixas.
+  Os outros CSS só usam var(--nome). Para mudar a cara do jogo, mude aqui.
+  Contraste: todos os pares texto/fundo usados ficam acima de 4,5:1 (ver docs/comparativo-main-vs-branch.md).
+*/
+:root {
+  color-scheme: light;
+
+  /* ---------- Cores ---------- */
+  --cor-entorno: #2b2d30;        /* fora do palco (as "tarjas" quando a janela não é 16:9) */
+  --cor-palco: #eeeeef;          /* fundo do palco */
+  --cor-painel: #ffffff;         /* caixas, cards, painéis */
+  --cor-pilula: #d6d6d9;         /* botões e títulos neutros */
+  --cor-texto: #1c1d1f;          /* texto principal (16:1 no branco) */
+  --cor-texto-suave: #4f5156;    /* texto secundário (8:1 no branco, 5,8:1 no placeholder) */
+  --cor-borda: #7c7d82;          /* contorno de botões (3,9:1 — contorno, não texto) */
+  --cor-acao: #e8742c;           /* laranja de ação: brilho/hover/selecionado (não usar como cor de texto) */
+  --cor-acao-clara: #fbe3d3;     /* fundo de item selecionado */
+  --cor-ok: #2f7a45;             /* acerto */
+  --cor-alerta: #a76a00;         /* erro leve */
+  --cor-critico: #b3352f;        /* erro crítico */
+  --cor-foco: #0b57d0;           /* anel de foco do teclado (5,6:1 no fundo do palco) */
+  --cor-veu: rgb(0 0 0 / .45);   /* escurecer o fundo atrás de painéis */
+  --cor-sombra: rgb(0 0 0 / .2);
+
+  /* Placeholders (assets que ainda não chegaram) */
+  --cor-ph-fundo: #dcdcde;
+  --cor-ph-linha: #8d8e92;
+  --cor-ph-texto: #4f5156;
+  --cor-ph-pessoa: #c9d4e6;      /* personagens: azul-claro, como pede o roteiro */
+  --cor-ph-pele: #e9b9b4;        /* região de pele */
+
+  /* Menu do protótipo (fora do jogo, tema escuro) */
+  --cor-proto-fundo: #1f2124;
+  --cor-proto-texto: #f1f1f3;
+  --cor-proto-suave: #b9bbc0;
+  --cor-proto-botao: #3a3d42;
+
+  /* ---------- Tipografia ---------- */
+  --fonte: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --tam-dialogo: 22px;
+  --linha-dialogo: 1.45;
+  --tam-botao: 18px;
+  --tam-titulo: 22px;
+  --tam-texto: 17px;
+  --tam-pequeno: 14px;
+
+  /* ---------- Espaçamentos e raios ---------- */
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 24px;
+  --esp-6: 32px;
+  --raio-p: 6px;
+  --raio-m: 10px;
+  --raio-g: 18px;
+  --raio-pilula: 999px;
+
+  /* ---------- Palco (frame do Figma) ---------- */
+  --palco-largura: 1440px;
+  --palco-altura: 810px;
+
+  /* ---------- Caixa de diálogo: tamanho e posição FIXOS ----------
+     Nunca muda com o texto. Texto longo é paginado ("Continuar"). */
+  --dlg-x: 101px;
+  --dlg-y: 600px;
+  --dlg-largura: 1238px;
+  --dlg-altura: 186px;
+  --dlg-recuo-avatar: 230px;     /* espaço reservado à esquerda para o avatar */
+  --dlg-linhas: 4;               /* quantas linhas cabem por página */
+  --avatar-x: 30px;
+  --avatar-y: 510px;
+  --avatar-largura: 190px;
+  --avatar-altura: 260px;
+
+  /* ---------- Ordem das camadas (ZStack) ---------- */
+  --z-cenario: 1;
+  --z-objetos: 2;
+  --z-hud: 3;
+  --z-dialogo: 4;
+  --z-prototipo: 5;
+
+  /* ---------- Movimento ---------- */
+  --duracao: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duracao: 0ms; }
+}

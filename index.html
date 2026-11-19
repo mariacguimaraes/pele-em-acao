@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+  index.html — a "moldura" do jogo.
+  Aqui só existe o esqueleto: o palco 16:9 com as 5 camadas (como uma ZStack)
+  e a barra do protótipo. Quem preenche cada camada é o JavaScript da pasta js/view.
+  A ordem dos <script> importa: primeiro os dados, depois o Model, o ViewModel e por último a View.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pele em Ação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<!-- Área que ocupa a janela inteira; o palco fica centralizado dentro dela -->
+<main class="area-palco" id="area-palco">
+  <!-- O palco tem sempre 1440×810 (o frame do Figma) e é escalado inteiro -->
+  <div id="palco" class="palco" role="region" aria-label="Pele em Ação">
+    <div class="camada camada-cenario"    id="camada-cenario"    data-camada="1"></div>
+    <div class="camada camada-objetos"    id="camada-objetos"    data-camada="2"></div>
+    <div class="camada camada-hud"        id="camada-hud"        data-camada="3"></div>
+    <div class="camada camada-dialogo"    id="camada-dialogo"    data-camada="4"></div>
+  </div>
+</main>
+
+<!-- Camada 5: menu do protótipo (ferramenta de teste, não faz parte do jogo) -->
+<div class="proto-borda" id="proto-borda" aria-hidden="true"></div>
+<aside class="proto-menu" id="proto-menu" aria-label="Menu do protótipo" hidden></aside>
+<footer class="proto-barra" id="proto-barra"></footer>
+
+<!-- 1. Dados (textos do roteiro e lista de assets) -->
+<script src="assets/manifest.js" defer></script>
+<script src="js/data/roteiro-abertura-menu.js" defer></script>
+<script src="js/data/roteiro-bloco1.js" defer></script>
+<!-- 2. Model (regras e estado, sem HTML) -->
+<script src="js/model/estado.js" defer></script>
+<script src="js/model/regras-bloco1.js" defer></script>
+<!-- 3. ViewModel (decide o que cada tela mostra) -->
+<script src="js/viewmodel/jogo.js" defer></script>
+<script src="js/viewmodel/cenarios.js" defer></script>
+<script src="js/viewmodel/cenas-abertura-menu.js" defer></script>
+<script src="js/viewmodel/cenas-bloco1.js" defer></script>
+<!-- 4. View (desenha no HTML e escuta cliques/teclas) -->
+<script src="js/view/assets-view.js" defer></script>
+<script src="js/view/palco.js" defer></script>
+<script src="js/view/dialogo-view.js" defer></script>
+<script src="js/view/tela-view.js" defer></script>
+<script src="js/view/menu-prototipo.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>

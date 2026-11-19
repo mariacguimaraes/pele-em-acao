@@ -1,0 +1,70 @@
+/*
+  layout.css — o palco e as camadas (a ZStack).
+  O palco tem sempre 1440×810 px, como o frame do Figma, e é escalado INTEIRO
+  (js/view/palco.js calcula a escala). Por isso nada se mexe ou quebra ao redimensionar:
+  tudo dentro do palco usa posição absoluta em px do Figma.
+  Ordem das camadas (de baixo para cima):
+    1 cenário · 2 personagens e objetos · 3 HUD · 4 diálogo e escolhas · 5 menu do protótipo
+*/
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;              /* a página nunca rola: o palco cabe na janela */
+}
+
+body {
+  background: var(--cor-entorno);
+  color: var(--cor-texto);
+  font-family: var(--fonte);
+  display: grid;
+  grid-template-rows: 1fr auto; /* palco em cima, barra do protótipo embaixo */
+}
+
+/* Área livre onde o palco é centralizado (com tarjas quando a janela não é 16:9) */
+.area-palco {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* O palco: tamanho fixo, escalado por transform a partir do canto superior esquerdo */
+.palco {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--palco-largura);
+  height: var(--palco-altura);
+  transform-origin: 0 0;
+  background: var(--cor-palco);
+  overflow: hidden;
+  font-size: var(--tam-texto);
+}
+
+/* Cada camada cobre o palco inteiro. Ela própria não pega cliques;
+   só os elementos dentro dela (pointer-events: auto) pegam. */
+.camada {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.camada > * { pointer-events: auto; }
+.camada-cenario > *, .camada-objetos > .asset { pointer-events: none; }
+
+.camada-cenario { z-index: var(--z-cenario); }
+.camada-objetos { z-index: var(--z-objetos); }
+.camada-hud     { z-index: var(--z-hud); }
+.camada-dialogo { z-index: var(--z-dialogo); }
+
+/* Utilitário: posiciona qualquer elemento pelas coordenadas do Figma */
+.abs { position: absolute; }
+
+/* Texto só para leitor de tela */
+.so-leitor {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
