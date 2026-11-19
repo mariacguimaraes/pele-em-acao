@@ -1,0 +1,322 @@
+/*
+  components.css — os "componentes" do Figma: caixa de diálogo, botões, HUD,
+  placeholders de asset, painéis e o menu do protótipo.
+  Cada bloco abaixo é um componente; as classes extras (.sel, .feito, [data-tom]) são as variantes/estados.
+*/
+
+/* =========================================================
+   Foco do teclado (vale para tudo)
+   ========================================================= */
+:focus-visible {
+  outline: 4px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   Asset (imagem final ou placeholder)
+   ========================================================= */
+.asset { position: absolute; }
+.asset > img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.ph {                                     /* placeholder: aparece enquanto o arquivo final não existe */
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  text-align: center;
+  padding: var(--esp-2);
+  border: 2px dashed var(--cor-ph-linha);
+  background: var(--cor-ph-fundo);
+  color: var(--cor-ph-texto);
+  font-size: 13px;
+  line-height: 1.3;
+  border-radius: var(--raio-p);
+}
+.ph[data-forma="circulo"] { border-radius: 50%; }
+.ph[data-forma="pessoa"]  { border-radius: 90px 90px var(--raio-p) var(--raio-p); background: var(--cor-ph-pessoa); }
+.ph[data-forma="pele"]    { border-radius: 50%; background: var(--cor-ph-pele); }
+.ph[data-forma="texto"]   { border-style: dotted; background: transparent; font-size: 56px; font-weight: 700; color: var(--cor-texto); }
+.ph[data-forma="fundo"]   { background: transparent; border-radius: 0; place-items: start; justify-items: end; }
+.ph[data-forma="veu"]     { border: 0; background: var(--cor-veu); border-radius: 0; color: transparent; }
+
+/* Placeholders desligados (menu do protótipo): só some o desenho, o layout fica igual */
+html.sem-placeholders .ph:not([data-forma="veu"]) {
+  border-color: transparent;
+  background: transparent;
+  color: transparent;
+}
+
+/* =========================================================
+   Botão (pílula)
+   ========================================================= */
+.btn {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center; gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-4);
+  font: 600 var(--tam-botao)/1.25 var(--fonte);
+  color: var(--cor-texto);
+  background: var(--cor-pilula);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-m);
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow var(--duracao), border-color var(--duracao);
+}
+.btn:hover:not(:disabled) { border-color: var(--cor-acao); box-shadow: 0 0 0 4px rgb(232 116 44 / .35); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.branco   { background: var(--cor-painel); }
+.btn.destaque { background: var(--cor-acao-clara); border-color: var(--cor-acao); }
+.btn.sel      { background: var(--cor-acao-clara); border-color: var(--cor-acao); box-shadow: 0 0 0 4px rgb(232 116 44 / .35); }
+.btn.feito    { opacity: .6; }
+.btn.feito::after { content: "✓"; color: var(--cor-ok); }
+.btn.estatico { position: static; }
+
+/* Card de caso clínico (tela de seleção) */
+.card-caso {
+  position: absolute;
+  display: grid; gap: var(--esp-2); align-content: start;
+  padding: var(--esp-4);
+  background: var(--cor-painel);
+  border: 3px solid var(--cor-borda);
+  border-radius: 14px;
+  font: var(--tam-texto)/1.35 var(--fonte);
+  color: var(--cor-texto);
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--duracao), box-shadow var(--duracao);
+}
+.card-caso .asset { position: relative; height: 170px; }
+.card-caso:hover:not([aria-disabled="true"]) { transform: scale(1.03); box-shadow: 0 0 0 4px rgb(232 116 44 / .35); }
+.card-caso.sel { border-color: var(--cor-acao); box-shadow: 0 0 0 4px rgb(232 116 44 / .35); }
+.card-caso[aria-disabled="true"] { cursor: not-allowed; opacity: .65; }
+.card-caso .cadeado { position: absolute; inset: 0; display: grid; place-items: center; font-size: 56px; background: rgb(120 120 120 / .25); border-radius: 12px; }
+.card-caso .estado { font-size: var(--tam-pequeno); font-weight: 700; color: var(--cor-texto-suave); }
+
+/* =========================================================
+   HUD (camada 3)
+   ========================================================= */
+.hud-titulo {
+  position: absolute; left: 438px; top: 57px; width: 564px; min-height: 52px;
+  display: grid; place-items: center; text-align: center;
+  padding: var(--esp-1) var(--esp-4);
+  background: var(--cor-pilula);
+  border-radius: 12px;
+  font-weight: 700; font-size: var(--tam-titulo);
+}
+.hud-titulo small { display: block; font-weight: 400; font-size: var(--tam-pequeno); color: var(--cor-texto-suave); }
+
+.hud-icone {                               /* pausar / voltar */
+  position: absolute; left: 37px; top: 55px; width: 100px; height: 100px;
+  border-radius: 50%; border: 0;
+  background: var(--cor-pilula); color: var(--cor-texto);
+  font-size: 34px; cursor: pointer;
+}
+.hud-info {
+  position: absolute; left: 1330px; top: 160px; width: 96px;
+  display: grid; justify-items: center; gap: var(--esp-1);
+  border: 0; background: none; cursor: pointer;
+  font: var(--tam-pequeno) var(--fonte); color: var(--cor-texto);
+}
+.hud-info span { width: 52px; height: 52px; border-radius: 50%; background: var(--cor-pilula); display: grid; place-items: center; font-weight: 700; font-size: 20px; }
+
+.hud-contador {
+  position: absolute; left: 470px; top: 125px; width: 500px; height: 40px;
+  display: grid; place-items: center;
+  background: var(--cor-painel); border-radius: var(--raio-pilula);
+  font-weight: 600;
+}
+
+/* Dock: barra de ferramentas inferior (fica sob a caixa de diálogo quando há fala, como numa ZStack) */
+.hud-dock {
+  position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+  display: flex; gap: 14px; padding: 14px 20px;
+  background: var(--cor-painel);
+  border: 2px solid var(--cor-borda); border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+}
+.hud-dock button {
+  width: 110px; height: 110px;
+  display: grid; justify-items: center; align-content: center; gap: 6px;
+  border-radius: 12px; border: 2px solid transparent; background: transparent;
+  font: 600 15px var(--fonte); color: var(--cor-texto); cursor: pointer;
+}
+.hud-dock button .ic { width: 62px; height: 62px; border-radius: 50%; background: var(--cor-pilula); display: grid; place-items: center; font-size: 28px; }
+.hud-dock button:hover:not(:disabled) { border-color: var(--cor-acao); }
+.hud-dock button.ativo { background: var(--cor-acao-clara); border-color: var(--cor-acao); }
+.hud-dock button:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Aba vertical da ficha (fechada) */
+.hud-aba {
+  position: absolute; right: 0; top: 110px; width: 50px; height: 420px;
+  background: var(--cor-pilula); border: 2px solid var(--cor-borda); border-right: 0;
+  border-radius: var(--raio-m) 0 0 var(--raio-m);
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font: 700 15px var(--fonte); color: var(--cor-texto); cursor: pointer;
+}
+
+/* Ficha (gaveta) — termina ACIMA da caixa de diálogo, para nunca brigar com ela */
+.hud-ficha {
+  position: absolute; right: 20px; top: 100px; width: 600px; height: 480px;
+  display: flex; flex-direction: column; gap: var(--esp-3);
+  padding: var(--esp-4);
+  background: var(--cor-pilula); border: 2px solid var(--cor-borda); border-radius: var(--raio-m);
+}
+.hud-ficha h2 { margin: 0; font-size: 20px; }
+.hud-ficha .itens { flex: 1; display: grid; gap: 6px; align-content: start; }
+.hud-ficha label {
+  display: grid; grid-template-columns: 1fr 260px; align-items: center; gap: var(--esp-2);
+  background: var(--cor-painel); border-radius: var(--raio-p); padding: 6px 10px;
+  font-weight: 600; font-size: 15px;
+}
+.hud-ficha select { font: 14px var(--fonte); padding: 6px; border: 2px solid var(--cor-borda); border-radius: var(--raio-p); background: var(--cor-painel); color: var(--cor-texto); }
+.hud-ficha .rodape { display: flex; justify-content: space-between; align-items: center; gap: var(--esp-2); }
+.hud-ficha .rodape .btn { height: 48px; }
+
+/* =========================================================
+   Hotspot (ponto de interação) — camada 2
+   ========================================================= */
+.hotspot {
+  position: absolute; transform: translate(-50%, -50%);
+  border: 3px solid var(--cor-texto); border-radius: 50%;
+  background: rgb(255 255 255 / .4); cursor: pointer;
+}
+.hotspot:hover { background: rgb(232 116 44 / .35); border-color: var(--cor-acao); }
+.hotspot.visto { border-style: dashed; background: rgb(47 122 69 / .2); }
+.hotspot.pulsar { animation: pulsar 1.4s infinite; }
+@keyframes pulsar { 50% { box-shadow: 0 0 0 10px rgb(232 116 44 / .35); } }
+@media (prefers-reduced-motion: reduce) { .hotspot.pulsar { animation: none; box-shadow: 0 0 0 4px rgb(232 116 44 / .5); } }
+
+/* Dígito-pressão: botão de segurar + anel de progresso */
+.digito { position: absolute; border: 0; padding: 0; background: none; cursor: pointer; border-radius: 60px 60px var(--raio-m) var(--raio-m); }
+.digito:disabled { cursor: default; }
+.anel {
+  position: absolute; width: 170px; height: 170px; transform: translate(-50%, -50%);
+  border-radius: 50%; pointer-events: none;
+  -webkit-mask: radial-gradient(circle, transparent 66px, #000 67px);
+          mask: radial-gradient(circle, transparent 66px, #000 67px);
+}
+.anel-rotulo {
+  position: absolute; transform: translate(-50%, 0);
+  padding: 4px 12px; border-radius: var(--raio-pilula);
+  background: var(--cor-painel); font-weight: 700; font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   Caixa de diálogo — camada 4
+   TAMANHO E POSIÇÃO FIXOS. O texto é paginado, a caixa nunca cresce.
+   ========================================================= */
+.dialogo {
+  position: absolute;
+  left: var(--dlg-x); top: var(--dlg-y);
+  width: var(--dlg-largura); height: var(--dlg-altura);
+  padding: 16px 190px 16px var(--dlg-recuo-avatar);
+  background: var(--cor-painel);
+  border-radius: var(--raio-g);
+  box-shadow: 0 6px 24px var(--cor-sombra);
+  overflow: hidden;
+}
+.dialogo[data-tom="erro"] { box-shadow: inset 0 0 0 4px var(--cor-alerta), 0 6px 24px var(--cor-sombra); }
+.dialogo[data-tom="crit"] { box-shadow: inset 0 0 0 4px var(--cor-critico), 0 6px 24px var(--cor-sombra); }
+.dialogo[data-tom="ok"]   { box-shadow: inset 0 0 0 4px var(--cor-ok), 0 6px 24px var(--cor-sombra); }
+
+.dialogo .quem {
+  height: 24px; margin: 0;
+  font-size: 16px; font-weight: 700; color: var(--cor-texto-suave);
+}
+.dialogo .quem .tom { margin-left: var(--esp-2); }
+.dialogo .texto {
+  height: calc(var(--tam-dialogo) * var(--linha-dialogo) * var(--dlg-linhas));
+  margin: 4px 0 0;
+  overflow: hidden;
+  font-size: var(--tam-dialogo);
+  line-height: var(--linha-dialogo);
+}
+.dialogo .continuar {
+  position: absolute; right: 20px; bottom: 18px;
+  height: 52px; min-width: 150px;
+}
+.dialogo .pagina {
+  position: absolute; right: 24px; top: 16px;
+  font-size: var(--tam-pequeno); color: var(--cor-texto-suave); font-variant-numeric: tabular-nums;
+}
+
+/* Avatar de quem fala: faz parte do componente diálogo, por isso fica na camada 4 */
+.dialogo-avatar {
+  position: absolute;
+  left: var(--avatar-x); top: var(--avatar-y);
+  width: var(--avatar-largura); height: var(--avatar-altura);
+}
+
+/* =========================================================
+   Painéis (Sobre, Pausa, Gabarito, Pele negra) — camada 4, abaixo da caixa de diálogo
+   ========================================================= */
+.painel-veu { position: absolute; inset: 0; background: var(--cor-veu); }
+.painel {
+  position: absolute;
+  display: grid; gap: var(--esp-3); align-content: start;
+  padding: 28px;
+  background: var(--cor-painel); border-radius: 16px;
+  box-shadow: 0 10px 40px var(--cor-sombra);
+  overflow: hidden;
+}
+.painel h2 { margin: 0; font-size: 28px; text-wrap: balance; }
+.painel p  { margin: 0; line-height: 1.45; }
+.painel .ref { font-size: 13px; color: var(--cor-texto-suave); }
+.painel .acoes { display: flex; gap: var(--esp-3); }
+.painel .acoes .btn { height: 56px; flex: 1; }
+
+.gabarito { width: 100%; border-collapse: collapse; font-size: 15px; }
+.gabarito th, .gabarito td { border: 1px solid #b5b6ba; padding: 5px 8px; text-align: left; vertical-align: top; }
+.gabarito td.erro  { background: #f6d6d4; }
+.gabarito td.certo { background: #d8eedc; }
+.gabarito .marca { font-weight: 700; margin-right: 4px; }
+
+/* =========================================================
+   Menu do protótipo — camada 5 (fora do palco, por cima de tudo)
+   ========================================================= */
+.proto-borda {                    /* faixa invisível de 8px na borda esquerda: encostou, abre */
+  position: fixed; left: 0; top: 0; bottom: 0; width: 8px;
+  z-index: var(--z-prototipo);
+}
+.proto-menu {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 340px;
+  z-index: calc(var(--z-prototipo) + 1);
+  overflow-y: auto;
+  padding: var(--esp-4);
+  background: var(--cor-proto-fundo); color: var(--cor-proto-texto);
+  font: 14px/1.4 var(--fonte);
+  box-shadow: 4px 0 24px rgb(0 0 0 / .5);
+}
+.proto-menu h2 { font-size: 15px; margin: var(--esp-4) 0 var(--esp-2); color: var(--cor-proto-texto); }
+.proto-menu h2:first-child { margin-top: 0; }
+.proto-menu .dica { color: var(--cor-proto-suave); font-size: 12px; margin: 0 0 var(--esp-2); }
+.proto-menu ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.proto-menu button, .proto-barra button {
+  width: 100%; text-align: left;
+  font: inherit; color: var(--cor-proto-texto);
+  background: var(--cor-proto-botao); border: 1px solid #55585d; border-radius: var(--raio-p);
+  padding: 6px 10px; cursor: pointer;
+}
+.proto-menu button:hover, .proto-barra button:hover { background: #4a4e54; }
+.proto-menu button[aria-current="true"] { border-color: var(--cor-acao); box-shadow: inset 3px 0 0 var(--cor-acao); }
+.proto-menu label { display: flex; gap: var(--esp-2); align-items: center; cursor: pointer; padding: 4px 0; }
+.proto-menu pre {
+  margin: 0; padding: var(--esp-2);
+  background: #111214; border-radius: var(--raio-p);
+  font: 11px/1.35 ui-monospace, Menlo, monospace; color: #d9dade;
+  white-space: pre-wrap; word-break: break-word;
+  max-height: 320px; overflow: auto;
+}
+.proto-menu :focus-visible, .proto-barra :focus-visible { outline-color: #8ab4f8; }
+
+.proto-barra {
+  display: flex; gap: var(--esp-3); align-items: center; justify-content: space-between;
+  padding: 6px var(--esp-4);
+  background: var(--cor-proto-fundo); color: var(--cor-proto-suave);
+  font: 13px var(--fonte);
+  z-index: var(--z-prototipo);
+}
+.proto-barra b { color: var(--cor-proto-texto); }
+.proto-barra .grupo { display: flex; gap: var(--esp-2); align-items: center; flex-wrap: wrap; }
+.proto-barra button { width: auto; }
+@media (max-width: 640px) { .proto-barra .so-largo { display: none; } }
+/* Rótulo do placeholder de pessoa no alto, para não ficar atrás da caixa de diálogo */
+.ph[data-forma="pessoa"] { place-items: start center; padding-top: 48px; }
